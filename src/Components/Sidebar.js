@@ -46,10 +46,10 @@ function Sidebar({ selectedMenu, selectedItem }) {
           name: "Brands",
           path: "/brand-list"
         },
-        {
-          name: "Product Review",
-          path: "/product-review-list",
-        },
+        // {
+        //   name: "Product Review",
+        //   path: "/product-review-list",
+        // },
         {
           name: "Tags",
           path: "/tag-list",
