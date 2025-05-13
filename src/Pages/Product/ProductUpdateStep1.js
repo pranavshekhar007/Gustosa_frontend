@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../../Components/Sidebar";
 import TopNav from "../../Components/TopNav";
-import { updateProductServ, getProductDetailsServ } from "../../services/product.services";
+import {
+  updateProductServ,
+  getProductDetailsServ,
+} from "../../services/product.services";
 import { getTagSetServ } from "../../services/tag.service";
 import { getProductTypeServ } from "../../services/productType.service";
 import { getTaxServ } from "../../services/tax.service";
@@ -28,7 +31,7 @@ function ProductUpdateStep1() {
     tags: [],
     productType: "",
     tax: "",
-    category: [],
+    categoryId: [],
     hsnCode: "",
     GTIN: "",
     shortDescription: "",
@@ -54,21 +57,33 @@ function ProductUpdateStep1() {
       ]);
 
       if (tagRes?.data?.statusCode === 200) {
-        setTagOptions(tagRes.data.data.map(tag => ({ label: tag.name, value: tag.name })));
+        setTagOptions(
+          tagRes.data.data.map((tag) => ({ label: tag.name, value: tag.name }))
+        );
       }
       if (typeRes?.data?.statusCode === 200) {
-        setProductTypeOptions(typeRes.data.data.map(type => ({ label: type.name, value: type.name })));
+        setProductTypeOptions(
+          typeRes.data.data.map((type) => ({
+            label: type.name,
+            value: type.name,
+          }))
+        );
       }
       if (taxRes?.data?.statusCode === 200) {
         setTaxOptions(
-          taxRes.data.data.map(tax => ({
+          taxRes.data.data.map((tax) => ({
             label: `${tax.name} ${tax.percentage}%`,
             value: tax.name + " " + tax.percentage + " %",
           }))
         );
       }
-      if(categoryRes?.data?.statusCode === 200) {
-        setCategoryOptions(categoryRes.data.data.map(category => ({ label: category.name, value: category.name })))
+      if (categoryRes?.data?.statusCode === 200) {
+        setCategoryOptions(
+          categoryRes.data.data.map((category) => ({
+            label: category.name,
+            value: category._id,
+          }))
+        );
       }
     } catch (error) {
       toast.error("Failed to fetch dropdown data.");
@@ -85,7 +100,7 @@ function ProductUpdateStep1() {
           tags: product?.tags || [],
           productType: product?.productType || "",
           tax: product?.tax || "",
-          category: product?.category || [],
+          categoryId: product?.categoryId || [],
           hsnCode: product?.hsnCode || "",
           GTIN: product?.GTIN || "",
           shortDescription: product?.shortDescription || "",
@@ -119,7 +134,7 @@ function ProductUpdateStep1() {
           tags: [],
           productType: "",
           tax: "",
-          category: [],
+          categoryId: [],
           hsnCode: "",
           GTIN: "",
           shortDescription: "",
@@ -140,7 +155,7 @@ function ProductUpdateStep1() {
       <div className="mainContainer">
         <TopNav />
         <div className="p-lg-4 p-md-3 p-2">
-        <div
+          <div
             className="row mx-0 p-0"
             style={{
               position: "relative",
@@ -151,10 +166,13 @@ function ProductUpdateStep1() {
 
           <div className="mt-3">
             <div className="card-body px-2">
-            <div className="d-flex">
-              <h4 className="p-2 text-dark shadow rounded mb-4" style={{ background: "#05E2B5" }}>
-                Update Product : Step 1/4
-              </h4>
+              <div className="d-flex">
+                <h4
+                  className="p-2 text-dark shadow rounded mb-4"
+                  style={{ background: "#05E2B5" }}
+                >
+                  Update Product : Step 1/4
+                </h4>
               </div>
               <div className="row">
                 <div className="col-6 mb-3">
@@ -173,11 +191,14 @@ function ProductUpdateStep1() {
                   <label>Tags</label>
                   <Select
                     isMulti
-                    value={formData.tags.map(tag => ({ label: tag, value: tag }))}
+                    value={formData.tags.map((tag) => ({
+                      label: tag,
+                      value: tag,
+                    }))}
                     onChange={(selected) =>
                       setFormData({
                         ...formData,
-                        tags: selected.map(option => option.value),
+                        tags: selected.map((option) => option.value),
                       })
                     }
                     options={tagOptions}
@@ -189,11 +210,17 @@ function ProductUpdateStep1() {
                   <Select
                     value={
                       formData.productType
-                        ? { label: formData.productType, value: formData.productType }
+                        ? {
+                            label: formData.productType,
+                            value: formData.productType,
+                          }
                         : null
                     }
                     onChange={(selected) =>
-                      setFormData({ ...formData, productType: selected?.value || "" })
+                      setFormData({
+                        ...formData,
+                        productType: selected?.value || "",
+                      })
                     }
                     options={productTypeOptions}
                   />
@@ -218,14 +245,18 @@ function ProductUpdateStep1() {
                   <label>Category</label>
                   <Select
                     isMulti
-                    value={formData.category.map(category => ({ label: category, value: category }))}
+                    value={categoryOptions.filter((option) =>
+                      formData.categoryId.includes(option.value)
+                    )}
                     onChange={(selected) =>
                       setFormData({
                         ...formData,
-                        category: selected.map(option => option.value),
+                        categoryId: selected.map((option) => option.value),
                       })
                     }
                     options={categoryOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
                   />
                 </div>
 
@@ -245,7 +276,9 @@ function ProductUpdateStep1() {
                       }
                     }}
                   />
-                  {hsnError && <div className="invalid-feedback">{hsnError}</div>}
+                  {hsnError && (
+                    <div className="invalid-feedback">{hsnError}</div>
+                  )}
                 </div>
 
                 <div className="col-6 mb-3">
@@ -261,7 +294,6 @@ function ProductUpdateStep1() {
                         setFormData({ ...formData, GTIN: value });
                       }
                     }}
-                    
                   />
                 </div>
 
@@ -280,7 +312,11 @@ function ProductUpdateStep1() {
                 <div className="col-12">
                   <button
                     className="btn btn-primary w-100"
-                    style={{ background: "#61ce70", border: "none", borderRadius: "24px" }}
+                    style={{
+                      background: "#61ce70",
+                      border: "none",
+                      borderRadius: "24px",
+                    }}
                     onClick={updateProductFunc}
                     disabled={btnLoader}
                   >
@@ -291,7 +327,7 @@ function ProductUpdateStep1() {
             </div>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
   );
 }

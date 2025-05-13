@@ -166,7 +166,7 @@ function ProductList() {
             <div className="col-lg-3 mb-2 col-md-6 col-12">
               <div>
                 <button
-                  className="btn  w-100 borderRadius24"
+                  className="btn w-100 borderRadius24"
                   style={{ background: "#61ce70" }}
                   onClick={() => navigate("/add-product")}
                 >
@@ -265,9 +265,11 @@ function ProductList() {
                                 </td>
                                 <td className="text-center">{v?.tax}</td>
                                 <td className="text-center">
-                                  {Array.isArray(v?.category)
-                                    ? v?.category.join(", ")
-                                    : v?.category}
+                                  {Array.isArray(v?.categoryId)
+                                    ? v.categoryId
+                                        .map((cat) => cat.name)
+                                        .join(", ")
+                                    : v?.categoryId?.name || "-"}
                                 </td>
 
                                 <td className="text-center">

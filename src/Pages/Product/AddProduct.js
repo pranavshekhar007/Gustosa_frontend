@@ -31,7 +31,7 @@ function AddProduct() {
     tags: [],
     productType: "",
     tax: "",
-    category: [],
+    categoryId: "",
     hsnCode: "",
     GTIN: "",
     shortDescription: "",
@@ -100,7 +100,7 @@ function AddProduct() {
           tags: formData?.tags,
           productType: formData?.productType,
           tax: formData?.tax,
-          category: formData?.category,
+          categoryId: formData?.categoryId,
           hsnCode: formData?.hsnCode,
           GTIN: formData?.GTIN,
           shortDescription: shortDescription,
@@ -112,7 +112,7 @@ function AddProduct() {
           tags: formData?.tags,
           productType: formData?.productType,
           tax: formData?.tax,
-          category: formData?.category,
+          categoryId: formData?.categoryId,
           madeIn: formData?.madeIn,
           hsnCode: formData?.hsnCode,
           GTIN: formData?.GTIN,
@@ -128,7 +128,7 @@ function AddProduct() {
           tags: [],
           productType: "",
           tax: "",
-          category: [],
+          categoryId: "",
           madeIn: "",
           hsnCode: "",
           GTIN: "",
@@ -252,7 +252,7 @@ function AddProduct() {
                     onChange={(selectedOptions) =>
                       setFormData({
                         ...formData,
-                        category: selectedOptions.map((option) => option.label), // only array of string IDs
+                        categoryId: selectedOptions.map((option) => option.value),
                       })
                     }
                     className="basic-multi-select"
