@@ -28,11 +28,11 @@ import UserTicketList from '../Pages/SupportTickets/UserTicketList';
 import TicketCategoryList from '../Pages/SupportTickets/TicketCategoryList';
 import ChatBox from '../Pages/SupportTickets/ChatBox';
 import ProductApproval from '../Pages/Product/ProductApproval';
-import OrderList from '../Pages/Order/OrderList';
 import UserCookiePolicy from '../Pages/Support/CookiePolicy/UserCookiePolicy';
 import UserShippingPolicy from '../Pages/Support/ShippingPolicy/ShippingPolicy';
 import UserRefundAndReturn from '../Pages/Support/RefundAndReturn/RefundAndReturn';
 import ProductUpdateStep1 from '../Pages/Product/ProductUpdateStep1';
+import OrderList from '../Pages/Order/OrderList';
 
 function AuthenticatedRoutes() {
   return (
@@ -93,7 +93,10 @@ function AuthenticatedRoutes() {
         <Route path="/chat-box/:id" element={<ChatBox/>}/>
 
         {/* order */}
-        <Route path="/order-list" element={<OrderList/>}/>
+        <Route path="/order-list" element={<OrderList />}/>
+        <Route path="/orders" element={<OrderList />} />
+        <Route path="/orders/:status" element={<OrderList />} />
+
 
         {/* Policy */}
         <Route path='/user-cookie-policy' element={<UserCookiePolicy />} />
@@ -101,6 +104,7 @@ function AuthenticatedRoutes() {
         <Route path="/user-privacy-policy" element={<UserPrivacyPolicy/>}/>
         <Route path="/user-shipping-policy" element={<UserShippingPolicy />}/>
         <Route path="/user-refund-return" element={<UserRefundAndReturn />}/>
+        
     </Routes>
   )
 }

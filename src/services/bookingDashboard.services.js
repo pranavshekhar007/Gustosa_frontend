@@ -23,19 +23,11 @@ export const getBookingListServ = async (formData) => {
     throw error;
   }
 };
-export const assignVenderServ = async (formData) => {
+
+
+export const getProductServ = async (formData) => {
   try {
-    const response = await axios.post(BASE_URL + "booking/assign-vender/"+formData?.bookingId, {venderId : formData?.venderId});
-    return response;
-  } catch (error) {
-    // Handle error (e.g., log or throw an error)
-    console.error("Error fetching data:", error);
-    throw error;
-  }
-};
-export const markBookingDoneServ = async (id) => {
-  try {
-    const response = await axios.post(BASE_URL + "booking/mark-done/"+id, {});
+    const response = await axios.post(BASE_URL + "product/list", formData);
     return response;
   } catch (error) {
     // Handle error (e.g., log or throw an error)
@@ -44,3 +36,17 @@ export const markBookingDoneServ = async (id) => {
   }
 };
 
+export const getUserListServ = async (formData) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + "user/list",
+      formData,
+      getConfig()
+    );
+    return response;
+  } catch (error) {
+    // Handle error (e.g., log or throw an error)
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

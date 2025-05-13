@@ -10,12 +10,15 @@ import "react-toastify/dist/ReactToastify.css";
 import JoditEditor from "jodit-react";
 import { useParams, useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { getCategoryServ } from "../../services/category.service";
 
 function ProductUpdateStep1() {
   const params = useParams();
   const navigate = useNavigate();
   const editor = useRef(null);
   const contentRef = useRef("");
+
+  const [hsnError, setHsnError] = useState("");
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [content, setContent] = useState("");
@@ -25,13 +28,16 @@ function ProductUpdateStep1() {
     tags: [],
     productType: "",
     tax: "",
+    category: [],
     hsnCode: "",
+    GTIN: "",
     shortDescription: "",
   });
 
   const [tagOptions, setTagOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
   const [taxOptions, setTaxOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
 
   const config = {
     placeholder: "Start typing...",
@@ -40,10 +46,11 @@ function ProductUpdateStep1() {
 
   const fetchDropdownData = async () => {
     try {
-      const [tagRes, typeRes, taxRes] = await Promise.all([
+      const [tagRes, typeRes, taxRes, categoryRes] = await Promise.all([
         getTagSetServ({ status: true }),
         getProductTypeServ({ status: true }),
         getTaxServ({ status: true }),
+        getCategoryServ({ status: true }),
       ]);
 
       if (tagRes?.data?.statusCode === 200) {
@@ -60,6 +67,9 @@ function ProductUpdateStep1() {
           }))
         );
       }
+      if(categoryRes?.data?.statusCode === 200) {
+        setCategoryOptions(categoryRes.data.data.map(category => ({ label: category.name, value: category.name })))
+      }
     } catch (error) {
       toast.error("Failed to fetch dropdown data.");
     }
@@ -75,7 +85,9 @@ function ProductUpdateStep1() {
           tags: product?.tags || [],
           productType: product?.productType || "",
           tax: product?.tax || "",
+          category: product?.category || [],
           hsnCode: product?.hsnCode || "",
+          GTIN: product?.GTIN || "",
           shortDescription: product?.shortDescription || "",
         });
         setContent(product?.shortDescription || "");
@@ -107,7 +119,9 @@ function ProductUpdateStep1() {
           tags: [],
           productType: "",
           tax: "",
+          category: [],
           hsnCode: "",
+          GTIN: "",
           shortDescription: "",
         });
         navigate("/update-product-step2/" + response?.data?.data?._id);
@@ -201,14 +215,53 @@ function ProductUpdateStep1() {
                 </div>
 
                 <div className="col-6 mb-3">
-                  <label>HSN Code</label>
-                  <input
-                    type="text"
-                    value={formData.hsnCode}
-                    onChange={(e) =>
-                      setFormData({ ...formData, hsnCode: e.target.value })
+                  <label>Category</label>
+                  <Select
+                    isMulti
+                    value={formData.category.map(category => ({ label: category, value: category }))}
+                    onChange={(selected) =>
+                      setFormData({
+                        ...formData,
+                        category: selected.map(option => option.value),
+                      })
                     }
+                    options={categoryOptions}
+                  />
+                </div>
+
+                <div className="col-6 mb-3">
+                  <label>HSN Code*</label>
+                  <input
+                    className={`form-control ${hsnError ? "is-invalid" : ""}`}
+                    style={{ height: "45px" }}
+                    value={formData?.hsnCode}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setFormData({ ...formData, hsnCode: value });
+                        setHsnError("");
+                      } else {
+                        setHsnError("Only numbers are allowed in HSN Code");
+                      }
+                    }}
+                  />
+                  {hsnError && <div className="invalid-feedback">{hsnError}</div>}
+                </div>
+
+                <div className="col-6 mb-3">
+                  <label>GTIN Code*</label>
+                  <input
                     className="form-control"
+                    style={{ height: "45px" }}
+                    value={formData?.GTIN || ""}
+                    required
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setFormData({ ...formData, GTIN: value });
+                      }
+                    }}
+                    
                   />
                 </div>
 
@@ -220,7 +273,6 @@ function ProductUpdateStep1() {
                     value={content}
                     onChange={(newContent) => {
                       contentRef.current = newContent;
-                      setContent(newContent);
                     }}
                   />
                 </div>
@@ -228,7 +280,7 @@ function ProductUpdateStep1() {
                 <div className="col-12">
                   <button
                     className="btn btn-primary w-100"
-                    style={{ background: "#05E2B5", border: "none", borderRadius: "24px" }}
+                    style={{ background: "#61ce70", border: "none", borderRadius: "24px" }}
                     onClick={updateProductFunc}
                     disabled={btnLoader}
                   >

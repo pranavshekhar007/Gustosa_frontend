@@ -41,16 +41,6 @@ function UserFaq() {
       count: statics?.userFaq,
       bgColor: "#6777EF",
     },
-    {
-      title: "Driver Faqs",
-      count: statics?.driverFaq,
-      bgColor: "#63ED7A",
-    },
-    {
-      title: "Vendor Faqs",
-      count: statics?.vendorFaq,
-      bgColor: "#FFA426",
-    },
   ];
   useEffect(() => {
     handleGetFaqFunc();
@@ -59,7 +49,7 @@ function UserFaq() {
   const [addFormData, setAddFormData] = useState({
     question: "",
     answer: "",
-    category: "",
+    category: "user",
   });
   const handleAddFaqFunc = async () => {
     setIsLoading(true);
@@ -166,7 +156,7 @@ function UserFaq() {
   };
   return (
     <div className="bodyContainer">
-      <Sidebar selectedMenu="Support" selectedItem="FAQs" />
+      <Sidebar selectedMenu="System Support" selectedItem="FAQs" />
       <div className="mainContainer">
         <TopNav />
         <div className="p-lg-4 p-md-3 p-2">
@@ -224,8 +214,6 @@ function UserFaq() {
                 >
                   <option value="">Select Category</option>
                   <option value="user">User</option>
-                  <option value="vendor">Vendor</option>
-                  <option value="driver">Driver</option>
                 </select>
               </div>
             </div>
@@ -411,6 +399,7 @@ function UserFaq() {
                     <label className="mt-3">Category</label>
                     <select
                       className="form-control"
+                      value={addFormData.category || "user"}
                       onChange={(e) =>
                         setAddFormData({
                           ...addFormData,
@@ -420,8 +409,6 @@ function UserFaq() {
                     >
                       <option value="">Select Status</option>
                       <option value="user">User</option>
-                      <option value="vendor">Vendor</option>
-                      <option value="driver">Driver</option>
                     </select>
                     {addFormData?.question &&
                     addFormData?.answer &&
@@ -527,8 +514,6 @@ function UserFaq() {
                     >
                       <option value="">Select Status</option>
                       <option value="user">User</option>
-                      <option value="vendor">Vendor</option>
-                      <option value="driver">Driver</option>
                     </select>
                     {editFormData?.question && editFormData?.answer && editFormData?.category ? (
                       <button

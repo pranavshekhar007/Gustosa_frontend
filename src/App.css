@@ -94,14 +94,14 @@
   filter: brightness(0) invert(1);
 }
 .topNavMain {
-  background-color: #0e0ed4;
+  background-color: #479D78;
   height: 130px;
 }
 .navRightDiv img {
   height: 30px;
 }
 .textPrimary {
-  color: #0e0ed4;
+  color: #61ce70;
 }
 .notificationDiv p {
   font-size: 10px;

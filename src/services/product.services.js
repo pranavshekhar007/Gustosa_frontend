@@ -113,3 +113,26 @@ export const getSubcategoryAttributeListServ = async (formData) => {
     throw error;
   }
 };
+
+
+export const addVariantsServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "product/add-variant", formData);
+    return response;
+  } catch (error) {
+    // Handle error (e.g., log or throw an error)
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export const updateVariantsServ = async (formData) => {
+  try {
+    const response = await axios.put(BASE_URL + "product/update-variant", formData);
+    return response;
+  } catch (error) {
+    // Handle error (e.g., log or throw an error)
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

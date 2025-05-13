@@ -166,8 +166,8 @@ function ProductList() {
             <div className="col-lg-3 mb-2 col-md-6 col-12">
               <div>
                 <button
-                  className="btn btn-primary w-100 borderRadius24"
-                  style={{ background: "#6777EF" }}
+                  className="btn  w-100 borderRadius24"
+                  style={{ background: "#61ce70" }}
                   onClick={() => navigate("/add-product")}
                 >
                   Add Product
@@ -192,6 +192,7 @@ function ProductList() {
                       <th className="text-center py-3">Gallery</th>
                       <th className="text-center py-3">Type</th>
                       <th className="text-center py-3">Tax</th>
+                      <th className="text-center py-3">Category</th>
                       <th className="text-center py-3">Tags</th>
                       <th className="text-center py-3">HSN Code</th>
                       <th className="text-center py-3">Price</th>
@@ -262,15 +263,20 @@ function ProductList() {
                                 <td className="text-center">
                                   {v?.productType}
                                 </td>
+                                <td className="text-center">{v?.tax}</td>
                                 <td className="text-center">
-                                  {v?.tax}
+                                  {Array.isArray(v?.category)
+                                    ? v?.category.join(", ")
+                                    : v?.category}
                                 </td>
+
                                 <td className="text-center">
-                                  {v?.tags}
+                                  {Array.isArray(v?.tags)
+                                    ? v?.tags.join(", ")
+                                    : v?.tags}
                                 </td>
-                                <td className="text-center">
-                                  {v?.hsnCode}
-                                </td>
+
+                                <td className="text-center">{v?.hsnCode}</td>
                                 <td className="text-center">{v?.price}</td>
                                 <td className="text-center">
                                   {v?.stockQuantity}
@@ -319,7 +325,9 @@ function ProductList() {
                                   <a
                                     className="btn btn-info mx-2 text-light shadow-sm"
                                     onClick={() =>
-                                      navigate("/update-product-step1/" + v?._id)
+                                      navigate(
+                                        "/update-product-step1/" + v?._id
+                                      )
                                     }
                                   >
                                     Edit

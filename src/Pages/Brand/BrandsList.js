@@ -150,7 +150,7 @@ function BrandsList() {
   };
   return (
     <div className="bodyContainer">
-      <Sidebar selectedMenu="Brands" selectedItem="Brands" />
+      <Sidebar selectedMenu="Product Management" selectedItem="Brands" />
       <div className="mainContainer">
         <TopNav />
         <div className="p-lg-4 p-md-3 p-2">

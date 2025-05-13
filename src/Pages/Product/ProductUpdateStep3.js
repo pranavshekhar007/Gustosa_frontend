@@ -215,7 +215,7 @@ function ProductUpdateStep3() {
                   <button
                     className="btn btn-primary w-100"
                     style={{
-                      background: "#05E2B5",
+                      background: "#61ce70",
                       border: "none",
                       borderRadius: "24px",
                     }}

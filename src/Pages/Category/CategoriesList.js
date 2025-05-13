@@ -154,7 +154,7 @@ function CategoriesList() {
   };
   return (
     <div className="bodyContainer">
-      <Sidebar selectedMenu="Categories" selectedItem="Main Categories" />
+      <Sidebar selectedMenu="Product Management" selectedItem="Categories" />
       <div className="mainContainer">
         <TopNav />
         <div className="p-lg-4 p-md-3 p-2">

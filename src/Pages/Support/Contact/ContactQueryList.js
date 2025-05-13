@@ -41,16 +41,6 @@ function ContactQueryList() {
       count: statics?.userQueries,
       bgColor: "#6777EF",
     },
-    {
-      title: "Driver Queries",
-      count: statics?.driverQueries,
-      bgColor: "#63ED7A",
-    },
-    {
-      title: "Vendor Queries",
-      count: statics?.vendorQueries,
-      bgColor: "#FFA426",
-    },
   ];
   useEffect(() => {
     handleGetContactListFunc();
@@ -92,7 +82,7 @@ function ContactQueryList() {
   };
   return (
     <div className="bodyContainer">
-      <Sidebar selectedMenu="Support" selectedItem="Contact Query" />
+      <Sidebar selectedMenu="System Support" selectedItem="Contact Query" />
       <div className="mainContainer">
         <TopNav />
         <div className="p-lg-4 p-md-3 p-2">

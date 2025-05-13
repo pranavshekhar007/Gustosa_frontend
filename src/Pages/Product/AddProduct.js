@@ -8,28 +8,32 @@ import "react-toastify/dist/ReactToastify.css";
 import JoditEditor from "jodit-react";
 import { getTagSetServ } from "../../services/tag.service";
 import { getProductTypeServ } from "../../services/productType.service";
-import { getProductLocationServ } from "../../services/ProductLocation.service";
 import { getTaxServ } from "../../services/tax.service";
 import { addProductServ } from "../../services/product.services";
-import { getVenderListServ } from "../../services/vender.services";
 import Select from "react-select";
 import { useGlobalState } from "../../GlobalProvider";
 import { useNavigate } from "react-router-dom";
+import { getCategoryServ } from "../../services/category.service";
 function AddProduct() {
   const { globalState, setGlobalState } = useGlobalState();
   const navigate = useNavigate();
   const editor = useRef(null);
+  const contentRef = useRef("");
   const config = {
     placeholder: "Start typing...",
     height: "300px",
   };
+  const [hsnError, setHsnError] = useState("");
 
+  const [content, setContent] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     tags: [],
     productType: "",
     tax: "",
+    category: [],
     hsnCode: "",
+    GTIN: "",
     shortDescription: "",
   });
   const [tags, setTags] = useState([]);
@@ -65,61 +69,56 @@ function AddProduct() {
       console.log(error);
     }
   };
-  const [locationList, setLocationList] = useState([]);
-  const getProductLocationList = async () => {
+
+  const [categoryList, setCategoryList] = useState([]);
+  const getCategoryListFunc = async () => {
     try {
-      let response = await getProductLocationServ({ status: true });
+      let response = await getCategoryServ({ status: true });
       if (response?.data?.statusCode == "200") {
-        setLocationList(response?.data?.data);
+        setCategoryList(response?.data?.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const [vendorList, setVendorList] = useState([]);
-  const getVendorListFunc = async () => {
-    try {
-      let response = await getVenderListServ();
-      if (response?.data?.statusCode == "200") {
-        setVendorList(response?.data?.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
     getTagListFunc();
     getProductListFunc();
     getTaxListFunc();
-    getProductLocationList();
-    getVendorListFunc();
+    getCategoryListFunc();
   }, []);
   const [loader, setLoader] = useState(false);
   const handleSubmit = async () => {
     setLoader(true);
     try {
       let finalPayload;
-      if(formData?.createdByAdmin != "No"){
+      const shortDescription = contentRef.current;
+      if (formData?.createdByAdmin != "No") {
         finalPayload = {
           name: formData?.name,
           tags: formData?.tags,
           productType: formData?.productType,
           tax: formData?.tax,
+          category: formData?.category,
           hsnCode: formData?.hsnCode,
-          shortDescription: formData?.shortDescription,
-        }
+          GTIN: formData?.GTIN,
+          shortDescription: shortDescription,
+        };
       }
-      if(formData?.createdByAdmin == "No"){
+      if (formData?.createdByAdmin == "No") {
         finalPayload = {
           name: formData?.name,
           tags: formData?.tags,
           productType: formData?.productType,
           tax: formData?.tax,
+          category: formData?.category,
           madeIn: formData?.madeIn,
           hsnCode: formData?.hsnCode,
-          shortDescription: formData?.shortDescription,
+          GTIN: formData?.GTIN,
+          shortDescription: shortDescription,
           createdBy: formData?.createdBy,
-        }
+        };
       }
       let response = await addProductServ(finalPayload);
       if (response?.data?.statusCode == 200) {
@@ -129,12 +128,15 @@ function AddProduct() {
           tags: [],
           productType: "",
           tax: "",
+          category: [],
           madeIn: "",
           hsnCode: "",
-          shortDescription: "",
+          GTIN: "",
           createdBy: "",
           createdByAdmin: "",
         });
+        contentRef.current = "";
+        setContent("");
         navigate("/update-product-step2/" + response?.data?.data?._id);
       } else {
         toast.error("Something went wrong");
@@ -144,7 +146,7 @@ function AddProduct() {
     }
     setLoader(false);
   };
-  
+
   return (
     <div className="bodyContainer">
       <Sidebar selectedMenu="Product Management" selectedItem="Add Product" />
@@ -240,52 +242,69 @@ function AddProduct() {
                   </select>
                 </div>
                 <div className="col-6 mb-3">
+                  <label>Category*</label>
+                  <Select
+                    isMulti
+                    options={categoryList?.map((v) => ({
+                      label: v?.name,
+                      value: v?._id,
+                    }))}
+                    onChange={(selectedOptions) =>
+                      setFormData({
+                        ...formData,
+                        category: selectedOptions.map((option) => option.label), // only array of string IDs
+                      })
+                    }
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                </div>
+                <div className="col-6 mb-3">
                   <label>HSN Code*</label>
+                  <input
+                    className={`form-control ${hsnError ? "is-invalid" : ""}`}
+                    style={{ height: "45px" }}
+                    value={formData?.hsnCode}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setFormData({ ...formData, hsnCode: value });
+                        setHsnError("");
+                      } else {
+                        setHsnError("Only numbers are allowed in HSN Code");
+                      }
+                    }}
+                  />
+                  {hsnError && (
+                    <div className="invalid-feedback">{hsnError}</div>
+                  )}
+                </div>
+
+                <div className="col-6 mb-3">
+                  <label>GTIN Code*</label>
                   <input
                     className="form-control"
                     style={{ height: "45px" }}
-                    value={formData?.hsnCode}
-                    onChange={(e) =>
-                      setFormData({ ...formData, hsnCode: e?.target?.value })
-                    }
+                    value={formData?.GTIN || ""}
+                    required
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setFormData({ ...formData, GTIN: value });
+                      }
+                    }}
+                    
                   />
                 </div>
-                {formData?.createdByAdmin == "No" && (
-                  <div className="col-6 mb-3">
-                    <label>Vendor*</label>
-                    <select
-                      className="form-control"
-                      value={formData?.createdBy}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          createdBy: e?.target?.value,
-                        })
-                      }
-                    >
-                      <option>Select</option>
-                      {vendorList?.map((v, i) => {
-                        return (
-                          <option value={v?._id}>
-                            {v?.firstName + " " + v?.lastName}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                )}
 
                 <div className="col-12 mb-3">
                   <label>Short Description*</label>
                   <JoditEditor
                     ref={editor}
                     config={config}
-                    value={formData?.shortDescription}
+                    value={content}
                     onChange={(newContent) => {
-                      setFormData({
-                        ...formData,
-                        shortDescription: newContent,
-                      });
+                      contentRef.current = newContent;
                     }}
                   />
                 </div>
@@ -324,10 +343,9 @@ function AddProduct() {
                     <button
                       className="btn btn-primary w-100"
                       style={{
-                        background: "#05E2B5",
+                        background: "#61ce70",
                         border: "none",
                         borderRadius: "24px",
-                        opacity: "0.6",
                       }}
                     >
                       Submit
