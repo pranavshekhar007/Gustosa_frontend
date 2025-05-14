@@ -33,6 +33,11 @@ import UserShippingPolicy from '../Pages/Support/ShippingPolicy/ShippingPolicy';
 import UserRefundAndReturn from '../Pages/Support/RefundAndReturn/RefundAndReturn';
 import ProductUpdateStep1 from '../Pages/Product/ProductUpdateStep1';
 import OrderList from '../Pages/Order/OrderList';
+import AddComboProduct from '../Pages/Product/ComboProduct/AddComboProduct';
+import ComboProductList from '../Pages/Product/ComboProduct/ComboProductList';
+import ComboProductUpdateStep1 from '../Pages/Product/ComboProduct/ComboProductUpdateStep1';
+import ComboProductUpdateStep2 from '../Pages/Product/ComboProduct/ComboProductUpdateStep2';
+import ComboProductUpdateStep3 from '../Pages/Product/ComboProduct/ComboProductUpdateStep3';
 
 function AuthenticatedRoutes() {
   return (
@@ -104,6 +109,13 @@ function AuthenticatedRoutes() {
         <Route path="/user-privacy-policy" element={<UserPrivacyPolicy/>}/>
         <Route path="/user-shipping-policy" element={<UserShippingPolicy />}/>
         <Route path="/user-refund-return" element={<UserRefundAndReturn />}/>
+
+        {/* Combo Product  */}
+        <Route path='/add-combo-product' element={<AddComboProduct />} />
+        <Route path='/combo-product-list' element={<ComboProductList />} />
+        <Route path="/update-combo-product-step1/:id" element={<ComboProductUpdateStep1/>}/>
+        <Route path="/update-combo-product-step2/:id" element={<ComboProductUpdateStep2/>}/>
+        <Route path="/update-combo-product-step3/:id" element={<ComboProductUpdateStep3/>}/>
         
     </Routes>
   )

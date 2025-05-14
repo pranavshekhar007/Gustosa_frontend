@@ -220,3 +220,12 @@ button {
   height: 40px;
   border-radius: 0px 24px 24px 0px;
 }
+
+td ul {
+  max-height: 150px;
+  overflow-y: auto;
+}
+td ul li {
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
