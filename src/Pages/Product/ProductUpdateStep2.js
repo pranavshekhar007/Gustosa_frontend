@@ -245,8 +245,14 @@ function ProductUpdateStep2() {
                     })}
                   </select>
                 </div>
-                <div className="col-6 mb-3">
-                  <label>Product Price</label>
+                <div className="col-12 d-flex ">
+                  <p className="py-1 px-3 me-2 bg-primary text-light rounded bedge">INR</p>
+                  <p className="py-1 px-3 me-2 bg-secondary text-light rounded bedge" style={{cursor:"pointer"}} onClick={()=>alert("Comming Soon")}>USD</p>
+                  <p className="py-1 px-3 me-2 bg-secondary text-light rounded bedge" style={{cursor:"pointer"}} onClick={()=>alert("Comming Soon")}>AED</p>
+                  
+                </div>
+                <div className="col-4 mb-3">
+                  <label>Product Price (MRP)</label>
                   <input
                     onChange={(e) =>
                       setFormData({
@@ -258,8 +264,8 @@ function ProductUpdateStep2() {
                     className="form-control"
                   />
                 </div>
-                <div className="col-6 mb-3">
-                  <label>Product Discounted Price</label>
+                <div className="col-4 mb-3">
+                  <label>Discounted/Sale Price</label>
                   <input
                     onChange={(e) =>
                       setFormData({
@@ -268,6 +274,16 @@ function ProductUpdateStep2() {
                       })
                     }
                     value={formData?.discountedPrice}
+                    className="form-control"
+                  />
+                </div>
+                <div className="col-4 mb-3">
+                  <label>Offer Price</label>
+                  <input
+                    onChange={(e) =>
+                      setFormData({ ...formData, offerPrice: e.target.value })
+                    }
+                    value={formData?.offerPrice}
                     className="form-control"
                   />
                 </div>
@@ -309,7 +325,7 @@ function ProductUpdateStep2() {
                     className="form-control"
                   />
                 </div>
-
+                {/* 
                 <div className="col-6 mb-3">
                   <label>Currency</label>
                   <input
@@ -319,31 +335,9 @@ function ProductUpdateStep2() {
                     value={formData?.currency}
                     className="form-control"
                   />
-                </div>
+                </div> */}
 
-                <div className="col-6 mb-3">
-                  <label>MRP</label>
-                  <input
-                    onChange={(e) =>
-                      setFormData({ ...formData, MRP: e.target.value })
-                    }
-                    value={formData?.MRP}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-6 mb-3">
-                  <label>Offer Price</label>
-                  <input
-                    onChange={(e) =>
-                      setFormData({ ...formData, offerPrice: e.target.value })
-                    }
-                    value={formData?.offerPrice}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-6 mb-3">
+                {/* <div className="col-6 mb-3">
                   <label>Sale Price</label>
                   <input
                     onChange={(e) =>
@@ -352,7 +346,7 @@ function ProductUpdateStep2() {
                     value={formData?.salePrice}
                     className="form-control"
                   />
-                </div>
+                </div> */}
 
                 <div className="col-6 mb-3">
                   <label>Sale Start Date</label>
@@ -408,7 +402,12 @@ function ProductUpdateStep2() {
 
                 {/* Nutritional Section Heading  */}
                 <div className="col-12 mt-4 mb-2">
-                      <h2>Nutritional</h2>
+                  <h2
+                    className="text-secondary"
+                    style={{ fontFamily: "poppins" }}
+                  >
+                    Nutritional
+                  </h2>
                 </div>
 
                 <div className="col-6 mb-3">

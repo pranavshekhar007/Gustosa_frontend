@@ -187,7 +187,7 @@ function AddProduct() {
                   />
                 </div>
                 <div className="col-6 mb-3">
-                  <label>Tags*</label>
+                  <label>Tags</label>
                   <Select
                     isMulti
                     options={tags?.map((v) => ({
@@ -205,7 +205,7 @@ function AddProduct() {
                   />
                 </div>
                 <div className="col-6 mb-3">
-                  <label>Select Product Type*</label>
+                  <label>Select Product Type</label>
                   <select
                     className="form-control"
                     value={formData?.productType}
