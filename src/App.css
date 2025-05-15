@@ -94,14 +94,14 @@
   filter: brightness(0) invert(1);
 }
 .topNavMain {
-  background-color: #479D78;
+  background-color: #5EBC67;
   height: 130px;
 }
 .navRightDiv img {
   height: 30px;
 }
 .textPrimary {
-  color: #61ce70;
+  color: #3D9970;
 }
 .notificationDiv p {
   font-size: 10px;
@@ -228,4 +228,28 @@ td ul {
 td ul li {
   font-size: 14px;
   border: 1px solid #ddd;
+}
+.orderMainCard{
+  background-color: gainsboro;
+  border-radius: 20px;
+}
+
+.flatCart p{
+  margin-bottom: 0px;
+  font-size: 13px;
+  font-family: "poppins";
+}
+.boxCart{
+  border-radius: 12px;
+}
+.boxCart p{
+ margin-bottom: 4px;
+  font-size: 14px;
+  font-family: "poppins";
+}
+.boxCart b{
+  color: #363435;
+}
+.lightGreenBg{
+  background-color: #5EBC67;
 }

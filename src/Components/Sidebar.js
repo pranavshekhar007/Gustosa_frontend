@@ -24,8 +24,13 @@ function Sidebar({ selectedMenu, selectedItem }) {
           name: "Orders",
           path: "/order-list",
         },
+        {
+          name: "Bulk Order",
+          path: "/bulk-order-list",
+        },
       ],
     },
+    
     {
       menuIcon: "https://cdn-icons-png.flaticon.com/128/2875/2875916.png",
       menu: "Product Management",
@@ -176,6 +181,7 @@ function Sidebar({ selectedMenu, selectedItem }) {
                               ? " rounded  textPrimary "
                               : " ")
                           }
+                          
                         >
                           <i className="fa fa-circle" /> {v?.name}
                         </p>
